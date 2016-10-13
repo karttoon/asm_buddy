@@ -36,14 +36,14 @@ call      0x1400100
 A couple of other options if you need some more control over architecture.
 
 ```
-usage: asm_buddy.py [-h] [-a {x86,x64}] -i INPUT -f {a,d}
+usage: asm_buddy.py [-h] [-a {x86,x64,arm}] -i INPUT -f {a,d}
 
 Generate ASM or disasemble bytes. ASM should be semi-colon separated (";").
 
 optional arguments:
   -h, --help            show this help message and exit
-  -a {x86,x64}, --arch {x86,x64}
-                        Architecture - x86 or x64.
+  -a {x86,x64,arm}, --arch {x86,x64,arm}
+                        Architecture choice.
   -i INPUT, --input INPUT
                         Your input to assemble or disassemble.
   -f {a,d}, --func {a,d}
