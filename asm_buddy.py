@@ -5,8 +5,8 @@ import argparse
 
 __author__  = "Jeff White [karttoon] @noottrak"
 __email__   = "karttoon@gmail.com"
-__version__ = "1.0.2"
-__date__    = "12DEC2018"
+__version__ = "1.0.4"
+__date__    = "15AUG2022"
 
 """
 asma() {
@@ -31,20 +31,20 @@ def disassemble(args):
 
     CODE = args.input
     CODE = [CODE[x:x+2] for x in range(0, len(CODE), 2)]
-    CODE = "".join([chr(int(x, 16)) for x in CODE])
+    CODE = bytes("".join([chr(int(x, 16)) for x in CODE]).encode())
 
     for op in md.disasm(CODE, 0):
         if args.verbose == True:
-            if hasattr(op, "_detail"):
-                print "%-10x | %-15s | %-15s | %2d | %-10s | %-15s | %-12s" % (op.address, op.prefix, op.opcode, len(op.operands), op.mnemonic, op.op_str,  "".join('{:02x}'.format(x) for x in op.bytes))
+            if hasattr(op, "bytes"):
+                print("%-10x | %-15s | %-15s | %2d | %-10s | %-15s | %-12s" % (op.address, op.prefix, op.opcode, len(op.operands), op.mnemonic, op.op_str,  "".join('{:02x}'.format(x) for x in op.bytes)))
         else:
-            print "%-10s%s" % (op.mnemonic, op.op_str)
+            print("%-10s%s" % (op.mnemonic, op.op_str))
 
 def assemble(args):
 
     if args.arch == "x86":
         ks = Ks(KS_ARCH_X86, KS_MODE_32)
-    if args.arch == "x64:":
+    if args.arch == "x64":
         ks = Ks(KS_ARCH_X86, KS_MODE_64)
     if args.arch == "arm":
         ks = Ks(KS_ARCH_ARM, KS_MODE_ARM)
@@ -54,7 +54,7 @@ def assemble(args):
     ASM = ks.asm(CODE)
     ASM = ["\\x%.2X" % x for x in ASM[0]]
 
-    print "".join(ASM)
+    print("".join(ASM))
 
 def main():
     parser = argparse.ArgumentParser(description="Generate ASM or disasemble bytes. ASM should be semi-colon separated (\";\").")
